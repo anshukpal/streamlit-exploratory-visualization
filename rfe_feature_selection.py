@@ -19,7 +19,8 @@ import seaborn as sn
 @st.cache
 def loadData():
 	df = pd.read_csv("stock_data.csv")
-	X = df.iloc[:, 0:100]
+	# Picking up first 18 variables and showing their importance
+	X = df.iloc[:, 0:20]
 	y = df.iloc[:,-1]
 	return df,X,y
 
@@ -33,7 +34,8 @@ def split(X,y):
 # @st.cache(suppress_st_warning=True)
 def get_models():
 	models = dict()
-	for i in range(2, 100):
+	# Picking up first 18 variables and showing their importance
+	for i in range(2, 20):
 		rfe = RFE(estimator=DecisionTreeClassifier(), n_features_to_select=i)
 		model = DecisionTreeClassifier()
 		models[str(i)] = Pipeline(steps=[('s',rfe),('m',model)])
